@@ -1,0 +1,29 @@
+{
+  "name": "parkingexercise",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "ts-node parking_lot.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kopalg20/ParkingExercise.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kopalg20/ParkingExercise/issues"
+  },
+  "homepage": "https://github.com/kopalg20/ParkingExercise#readme",
+  "devDependencies": {
+    "@types/node": "^24.10.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "@datastructures-js/priority-queue": "^6.3.5"
+  }
+}
