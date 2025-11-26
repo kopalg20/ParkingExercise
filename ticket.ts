@@ -1,4 +1,3 @@
-import { VehicleType } from "./vehicle_type";
 export class Ticket {
     constructor(
         public id: string,
