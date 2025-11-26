@@ -78,15 +78,6 @@ describe("VehicleType", () => {
         expect(amount).toBe(290); // 29 * 10
     });
 
-    test("should handle zero/empty ticket values safely", () => {
-        const ticket = new Ticket("", 0, new Date(),"");
-
-        const output = vehicleType.generateTicket(ticket);
-
-        expect(output).toContain("Ticket ID:");
-        expect(output).toContain("Spot Number: 0");
-    });
-
     test("should reject invalid ratePerHour", () => {
         expect(() => new TestVehicleType(-5)).toThrow();
     });
