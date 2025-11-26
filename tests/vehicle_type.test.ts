@@ -90,4 +90,9 @@ describe("VehicleType", () => {
     test("should reject invalid ratePerHour", () => {
         expect(() => new TestVehicleType(-5)).toThrow();
     });
+    test("should reject negative amount in receipt generation", () => {
+        const ticket = new Ticket("T3", 8, new Date("2025-01-01T10:00:00"),"TestType");
+        const exit = new Date("2025-01-01T12:00:00");
+        expect(() => vehicleType.generateReceipt(ticket, exit, -50)).toThrow();
+    })
 });
