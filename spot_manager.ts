@@ -3,7 +3,7 @@ import { MinPriorityQueue } from '@datastructures-js/priority-queue';
 export class SpotManager {
     private freeSpots: MinPriorityQueue<{ priority: number }>;
     private totalSpots: number;
-    private assignedSpots: Set<number>; // track spots currently taken
+    private assignedSpots: Set<number>;
 
     constructor(totalSpots: number) {
         if (totalSpots < 0 || !Number.isInteger(totalSpots)) {
@@ -31,7 +31,6 @@ export class SpotManager {
     }
 
     releaseSpot(spot: number): void {
-        // VALIDATION CHECKS
         if (typeof spot !== "number" || !Number.isInteger(spot)) {
             throw new Error("Spot number must be an integer");
         }
