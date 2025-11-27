@@ -1,12 +1,19 @@
-import { VehicleFactory } from "./vehicle_factory";
 import { Ticket } from "./ticket";
+import { LotType, getStrategy } from "./startegy_factory";
+import { get } from "http";
 export class ParkingLot {
+    private lotType: LotType;
     private activeTickets: Map<string, Ticket> = new Map();
+    private strategy: any;
+
+    constructor(lotType: string) {
+        this.lotType = lotType as LotType;
+        this.strategy = getStrategy(this.lotType);
+    }
 
     park(type: string): string {
-        const vehicle = VehicleFactory.create(type);
-
-        const spot = vehicle.spotManager.getFreeSpot();
+        const lot = this.strategy;
+        const spot = lot.getFreeSpot(type);
         if (spot === null) {
             return `No free ${type} parking spots available`;
         }
@@ -16,32 +23,36 @@ export class ParkingLot {
 
         this.activeTickets.set(ticketId, ticket);
 
-        return vehicle.generateTicket(ticket);
+        return lot.generateTicket(ticket);
     }
 
     unpark(ticketId: string): string {
         const ticket = this.activeTickets.get(ticketId);
         if (!ticket) return "Invalid Ticket ID";
 
-        const vehicle = VehicleFactory.create(ticket.type);
+        const lot = this.strategy;
 
         const exitTime = new Date();
-        const amount = vehicle.calculateCost(ticket.entryTime, exitTime);
+        const amount = lot.calculateFee(ticket.type,ticket.entryTime, exitTime);
 
-        vehicle.spotManager.releaseSpot(ticket.spotNumber);
+        lot.releaseSpot(ticket.type,ticket.spotNumber);
 
         this.activeTickets.delete(ticketId);
 
-        return vehicle.generateReceipt(ticket, exitTime, amount);
+        return lot.generateReceipt(ticket, exitTime, amount);
     }
 }
 
-const lot = new ParkingLot();
+// Test run
+const lot = new ParkingLot("airport");
 
-const ticket1 = lot.park("car");
+const ticket1 = lot.park("motorcycle");
 console.log(ticket1);
 
+const ticketIdMatch = ticket1.match(/Ticket ID:\s*(T\d+)/);
+const ticketId = ticketIdMatch ? ticketIdMatch[1] : "";
+
 setTimeout(() => {
-    const receipt = lot.unpark("T" + ticket1.match(/\d+/)?.[0]);
+    const receipt = lot.unpark(ticketId);
     console.log(receipt);
-}, 5000);
+}, 3000);

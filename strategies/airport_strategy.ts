@@ -10,7 +10,7 @@ export class AirportStrategy extends ParkingStrategy {
         throw new Error("Exit time cannot be before entry time");
     }
     const ms = exit.getTime() - entry.getTime();
-    const hours = Math.max(1, Math.ceil(ms / (1000 * 60 * 60)));
+    const hours = Math.floor(ms / (1000 * 60 * 60));
     const days = Math.ceil(ms / (1000 * 60 * 60 * 24));
     const t = vehicleType.toLowerCase();
 

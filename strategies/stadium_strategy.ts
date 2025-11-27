@@ -11,7 +11,7 @@ export class StadiumStrategy extends ParkingStrategy {
         throw new Error("Exit time cannot be before entry time");
     }
     const ms = exit.getTime() - entry.getTime();
-    const hours = Math.max(1, Math.ceil(ms / (1000 * 60 * 60)))
+    const hours = Math.floor(ms / (1000 * 60 * 60));
     const t = vehicleType.toLowerCase();
 
     if (t === "motorcycle" || t === "scooter") {
@@ -23,9 +23,9 @@ export class StadiumStrategy extends ParkingStrategy {
 
     if (t === "car" || t === "suv") {
       if (hours <= 4) return 60;
-      if (hours <= 12) return 60 + 120;
+      if (hours < 12) return 60 + 120;
       const remaining = hours - 12;
-      return 60 + 120 + 200 * remaining;
+      return 60 + 120 + 200 * (remaining+1);
     }
 
     throw new Error(`The ${vehicleType} vehicle type not allowed in Stadium`);
