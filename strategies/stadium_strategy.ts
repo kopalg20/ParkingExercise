@@ -1,5 +1,7 @@
 import { ParkingStrategy } from "../parking_strategies";
-import { Ticket } from "../ticket";
+
+const MOTORCYCLE_RATES = { first4Hours: 30, next8Hours: 60, additionalHour: 100 };
+const CAR_RATES = { first4Hours: 60, next8Hours: 120, additionalHour: 200 };
 
 export class StadiumStrategy extends ParkingStrategy {
   constructor() {
@@ -15,17 +17,17 @@ export class StadiumStrategy extends ParkingStrategy {
     const t = vehicleType.toLowerCase();
 
     if (t === "motorcycle" || t === "scooter") {
-      if (hours <= 4) return 30;
-      if (hours <= 12) return 30 + 60;
+      if (hours <= 4) return MOTORCYCLE_RATES.first4Hours;
+      if (hours <= 12) return MOTORCYCLE_RATES.first4Hours + MOTORCYCLE_RATES.next8Hours;
       const remaining = hours - 12;
-      return 30 + 60 + 100 * remaining;
+      return MOTORCYCLE_RATES.first4Hours +MOTORCYCLE_RATES.next8Hours + MOTORCYCLE_RATES.additionalHour * remaining;
     }
 
     if (t === "car" || t === "suv") {
-      if (hours <= 4) return 60;
-      if (hours < 12) return 60 + 120;
+      if (hours <= 4) return CAR_RATES.first4Hours;
+      if (hours < 12) return  CAR_RATES.first4Hours + CAR_RATES.next8Hours;
       const remaining = hours - 12;
-      return 60 + 120 + 200 * (remaining+1);
+      return CAR_RATES.first4Hours + CAR_RATES.next8Hours + CAR_RATES.additionalHour * (remaining+1);
     }
 
     throw new Error(`The ${vehicleType} vehicle type not allowed in Stadium`);

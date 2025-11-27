@@ -1,6 +1,6 @@
 import { Ticket } from "./ticket";
 import { LotType, getStrategy } from "./startegy_factory";
-import { get } from "http";
+
 export class ParkingLot {
     private lotType: LotType;
     private activeTickets: Map<string, Ticket> = new Map();

@@ -1,4 +1,6 @@
 import { ParkingStrategy } from "../parking_strategies";
+const MOTORCYCLE_FEES = { short: 40, medium: 60, perDay: 80 };
+const CAR_FEES = { short: 60, medium: 80, perDay: 100 };
 
 export class AirportStrategy extends ParkingStrategy {
   constructor() {
@@ -15,15 +17,15 @@ export class AirportStrategy extends ParkingStrategy {
     const t = vehicleType.toLowerCase();
 
     if (t === "motorcycle" || t === "scooter") {
-      if (hours < 1) return 0;
-      if( hours < 8) return 40;
-      if (hours < 24) return 60;
+      if (hours < 1) return MOTORCYCLE_FEES.short;
+      if( hours < 8) return MOTORCYCLE_FEES.medium;
+      if (hours < 24) return MOTORCYCLE_FEES.perDay;
       return days * 80;
     }
 
     if (t === "car" || t === "suv") {
-      if (hours < 12) return 60;
-      if (hours < 24) return 80;
+      if (hours < 12) return CAR_FEES.short;
+      if (hours < 24) return CAR_FEES.medium;
       return days * 100;
     }
 
