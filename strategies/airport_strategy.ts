@@ -17,10 +17,10 @@ export class AirportStrategy extends ParkingStrategy {
     const t = vehicleType.toLowerCase();
 
     if (t === "motorcycle" || t === "scooter") {
-      if (hours < 1) return MOTORCYCLE_FEES.short;
-      if( hours < 8) return MOTORCYCLE_FEES.medium;
-      if (hours < 24) return MOTORCYCLE_FEES.perDay;
-      return days * 80;
+      if (hours < 1) return 0;
+      if( hours < 8) return MOTORCYCLE_FEES.short;
+      if (hours < 24) return MOTORCYCLE_FEES.medium;
+      return days * MOTORCYCLE_FEES.perDay;
     }
 
     if (t === "car" || t === "suv") {
